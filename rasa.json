@@ -1,0 +1,53 @@
+{
+  "$schema": "https://rasa-os.github.io/schema/rasa.schema.v1.json",
+  "contract_version": "1.3.0",
+  "name": "rasa.domain.core",
+  "version": "0.1.0",
+  "kind": "domain",
+  "aliases": [
+    "domain-core",
+    "rasa-domain-template",
+    "domain-template"
+  ],
+  "description": "RasaOS Domain · Core. The stripped-down canonical template every domain Element follows. Fork this when authoring a new domain (rasa.domain.legal, rasa.domain.code, rasa.domain.health, etc.) and populate content/skills/, content/rules/, content/agents/ + seed/ with the domain-specific material. Holds zero domain knowledge — it's the SHAPE every domain shares.\n\nDistinct from rasa.core (kind: core, the L1 shared bones every Element depends on). domain.core is the template for the domain KIND; rasa.core is the L1 dependency. Different concerns, both named 'core' for canonical positioning.",
+  "source": {
+    "repo": "https://github.com/RasaOS/domain-core",
+    "branch": "main"
+  },
+  "tier": "Pro",
+  "capabilities": [],
+  "permissions": [
+    "fs:write",
+    "shell:exec"
+  ],
+  "requires": {},
+  "rasa": {
+    "role": "domain-template",
+    "note": "Stripped-down canonical template for the domain kind. Forked-from-this becomes the starting point for any new domain Element. As of v0.1.0 truly stripped — content/ subdirectories are present but empty (.gitkeep only); seed/ ships only the canonical rasa.lock.json.template + CLAUDE.md.template; bin/init does the minimum (parse rasa.json, apply install policies for whatever content/seed entries the fork declares, stamp rasa.lock.json). Phase 2 of domain-core's design will lock down the UNIFIED shape across domain-code + domain-legal (the two existing domain implementations) and version those decisions in this Element."
+  },
+  "element": {
+    "description": "Files mirrored into the install target. Per canon ELEMENT_CONTRACT.md §7 install policies.",
+    "files": []
+  },
+  "seed": {
+    "description": "One-time files copied at install only. Per canon ELEMENT_CONTRACT.md §7.",
+    "files": [
+      {
+        "from": "seed/CLAUDE.md.template",
+        "to": "CLAUDE.md",
+        "policy": "skip-if-exists",
+        "note": "Per-project Claude session contract. Lives in the install target's root; project-owned forever."
+      },
+      {
+        "from": "seed/rasa.lock.json.template",
+        "to": ".claude/rasa.lock.json",
+        "policy": "init-only-with-sha",
+        "note": "Stamped with the Element HEAD commit SHA at init time. Lockfile shape per canon Spec §6 (Connection Contract). Substitutes {{ELEMENT_SHA}}, {{ELEMENT_BRANCH}}, {{TODAY}} placeholders."
+      }
+    ]
+  },
+  "scaffold": {
+    "description": "Empty directories created at init. Forks populate as needed.",
+    "directories": []
+  }
+}
