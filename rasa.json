@@ -2,14 +2,14 @@
   "$schema": "https://rasa-os.github.io/schema/rasa.schema.v1.json",
   "contract_version": "1.3.0",
   "name": "rasa.domain.core",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "kind": "domain",
   "aliases": [
     "domain-core",
     "rasa-domain-template",
     "domain-template"
   ],
-  "description": "RasaOS Domain · Core. The stripped-down canonical template every domain Element follows. Fork this when authoring a new domain (rasa.domain.legal, rasa.domain.code, rasa.domain.health, etc.) and populate content/skills/, content/rules/, content/agents/ + seed/ with the domain-specific material. Holds zero domain knowledge — it's the SHAPE every domain shares.\n\nDistinct from rasa.core (kind: core, the L1 shared bones every Element depends on). domain.core is the template for the domain KIND; rasa.core is the L1 dependency. Different concerns, both named 'core' for canonical positioning.",
+  "description": "RasaOS Domain · Core. The unified canonical template every domain Element follows. Locked-down v1.0.0 shape (Phase 2 complete): canon-required files (§4) + bin/init + bin/check-manifest + Apache-2.0 LICENSE + content/SHAPE.md documenting the two shape patterns (toolkit + structural) + scaffold subdirs (skills/, rules/, agents/ as opt-in starter for toolkit-shape forks).\n\nFork this to author a new domain. Decide upfront which shape pattern fits — toolkit (skills/rules/agents like rasa.domain.code), structural (firm/drives/members like rasa.domain.legal), or hybrid. Delete SHAPE.md from your fork; replace with your domain's content/README.md. The Element ships zero domain knowledge — only the universal shape.\n\nDistinct from rasa.core (kind: core, the L1 shared bones every Element depends on). domain-core is the template for the domain KIND; rasa.core is the L1 dependency. Different concerns; both named 'core' for canonical positioning.",
   "source": {
     "repo": "https://github.com/RasaOS/domain-core",
     "branch": "main"
@@ -23,11 +23,37 @@
   "requires": {},
   "rasa": {
     "role": "domain-template",
-    "note": "Stripped-down canonical template for the domain kind. Forked-from-this becomes the starting point for any new domain Element. As of v0.1.0 truly stripped — content/ subdirectories are present but empty (.gitkeep only); seed/ ships only the canonical rasa.lock.json.template + CLAUDE.md.template; bin/init does the minimum (parse rasa.json, apply install policies for whatever content/seed entries the fork declares, stamp rasa.lock.json). Phase 2 of domain-core's design will lock down the UNIFIED shape across domain-code + domain-legal (the two existing domain implementations) and version those decisions in this Element."
+    "shape_pattern": "agnostic",
+    "note": "Canonical domain template per canon ELEMENT_CONTRACT.md v1.3+ §4 (required files) + §7 (install policies). v1.0.0 is the locked-down shape: forks may pin to this version and absorb later minor bumps as additive. shape_pattern='agnostic' here flags that this template does not commit to toolkit/structural/hybrid; forks set their own. See content/SHAPE.md for the choice."
   },
   "element": {
-    "description": "Files mirrored into the install target. Per canon ELEMENT_CONTRACT.md §7 install policies.",
-    "files": []
+    "description": "Files mirrored into the install target per canon ELEMENT_CONTRACT.md §7. The v1.0.0 template ships these as opt-in scaffold — registered for check-manifest coverage but not installed automatically. Forks change the policy to directory-mirror/file-replace as they populate content/.",
+    "files": [
+      {
+        "from": "content/SHAPE.md",
+        "to": "content/SHAPE.md",
+        "policy": "opt-in",
+        "note": "Fork-time guide explaining toolkit vs structural shape patterns. Not installed into consumer projects. Forks should delete this from their copy and replace with content/README.md describing what's actually shipped."
+      },
+      {
+        "from": "content/skills/",
+        "to": ".claude/skills/",
+        "policy": "opt-in",
+        "note": "Toolkit-shape scaffold subdir. Forks that adopt the toolkit pattern populate this and change policy to directory-mirror. Structural-shape forks delete this entry + the directory."
+      },
+      {
+        "from": "content/rules/",
+        "to": ".claude/",
+        "policy": "opt-in",
+        "note": "Toolkit-shape scaffold subdir. Forks adopting toolkit add rule .md files here + change policy. Note canonical install target is .claude/ root (rules install flat per domain-code precedent)."
+      },
+      {
+        "from": "content/agents/",
+        "to": ".claude/agents/",
+        "policy": "opt-in",
+        "note": "Toolkit-shape scaffold subdir for Claude subagent definitions. Forks adopting toolkit add agent .md files here + change policy to directory-mirror."
+      }
+    ]
   },
   "seed": {
     "description": "One-time files copied at install only. Per canon ELEMENT_CONTRACT.md §7.",
@@ -36,18 +62,18 @@
         "from": "seed/CLAUDE.md.template",
         "to": "CLAUDE.md",
         "policy": "skip-if-exists",
-        "note": "Per-project Claude session contract. Lives in the install target's root; project-owned forever."
+        "note": "Per-project Claude session contract. Lives in install-target root; project-owned forever. Placeholder-free (Element identity lives in .claude/rasa.lock.json — current install-policy taxonomy doesn't substitute placeholders in skip-if-exists files; flagged in v0.1.0 AUDIT)."
       },
       {
         "from": "seed/rasa.lock.json.template",
         "to": ".claude/rasa.lock.json",
         "policy": "init-only-with-sha",
-        "note": "Stamped with the Element HEAD commit SHA at init time. Lockfile shape per canon Spec §6 (Connection Contract). Substitutes {{ELEMENT_SHA}}, {{ELEMENT_BRANCH}}, {{TODAY}} placeholders."
+        "note": "Stamped with the Element HEAD commit SHA at init time. Lockfile shape per canon Spec §6 (Connection Contract). Substitutes {{ELEMENT_NAME}}, {{ELEMENT_KIND}}, {{ELEMENT_VERSION}}, {{ELEMENT_REPO}}, {{ELEMENT_BRANCH}}, {{ELEMENT_SHA}}, {{TODAY}} placeholders via bin/init's init-only-with-sha handler."
       }
     ]
   },
   "scaffold": {
-    "description": "Empty directories created at init. Forks populate as needed.",
+    "description": "Empty directories created at init. v1.0.0 ships none — forks add as needed.",
     "directories": []
   }
 }

@@ -4,8 +4,8 @@
 **Repo / folder:** `domain-core`
 **Kind:** `domain` (canon Spec §6)
 **Contract:** Element Contract v1.3.0
-**Version:** 0.1.0
-**Status:** v0.1.0 stripped-down template. **Phase 2 will lock down a unified shape across `domain-code` + `domain-legal`** and version it here.
+**Version:** 1.0.0 (LOCKED unified shape, Phase 2 complete)
+**Status:** **v1.0.0 — first stable lock-down.** Unified shape derived from side-by-side analysis of `rasa.domain.code` (toolkit pattern) and `rasa.domain.legal` (structural pattern). Forks may pin here; minor bumps are additive.
 
 ## What this is
 
@@ -55,25 +55,28 @@ git remote set-url origin git@github.com:<your-org>/domain-<yourname>.git
 # 7. Bump version, commit, tag v0.1.0, push
 ```
 
-## File layout (v0.1.0 stripped)
+## File layout (v1.0.0 locked)
 
 ```
 domain-core/
 ├── rasa.json              # Connection Contract — kind=domain, contract_version=1.3.0
-├── VERSION                # semver, currently 0.1.0
+├── VERSION                # semver, currently 1.0.0
 ├── README.md              # this file
 ├── CLAUDE.md              # per-repo working contract for sessions on this template
 ├── CHANGELOG.md           # version history
+├── LICENSE                # Apache-2.0 (matches claude-kit + domain-legal lineage)
 ├── .gitignore             # macOS + editor cruft + .claude/rasa.lock.json
 ├── bin/
-│   └── init               # minimal install script: applies rasa.json policies + stamps lockfile
+│   ├── init               # canonical installer: applies rasa.json policies + stamps lockfile
+│   └── check-manifest     # validates rasa.json is a complete inventory of content/+seed/ (cross-platform pure-python)
 ├── content/
-│   ├── skills/.gitkeep    # empty — forks add per-domain skill .md files here
-│   ├── rules/.gitkeep     # empty — forks add per-domain rule .md files here
-│   └── agents/.gitkeep    # empty — forks add per-domain subagent .md files here
+│   ├── SHAPE.md           # explains the two shape patterns (toolkit vs structural); fork-time guide
+│   ├── skills/.gitkeep    # toolkit-shape scaffold — forks adopting toolkit populate + switch policy
+│   ├── rules/.gitkeep     # toolkit-shape scaffold
+│   └── agents/.gitkeep    # toolkit-shape scaffold
 └── seed/
-    ├── CLAUDE.md.template       # per-project Claude session contract template
-    └── rasa.lock.json.template  # canonical lockfile shape (gets stamped with SHA at install)
+    ├── CLAUDE.md.template       # per-project Claude session contract (placeholder-free)
+    └── rasa.lock.json.template  # canonical lockfile shape (substituted at install)
 ```
 
 ## Required files per canon ELEMENT_CONTRACT §4
@@ -92,25 +95,64 @@ All present:
 | `seed/` | ✓ (with 2 canonical templates) |
 | `bin/init` | ✓ (minimal — applies policies + stamps lockfile) |
 
-## What's deliberately NOT here (Phase 2 work)
+## v1.0.0 Phase-2 decisions
 
-The v0.1.0 stripped template intentionally ships with:
+Phase 2 reviewed `rasa.domain.code` (toolkit pattern) + `rasa.domain.legal`
+(structural pattern) side-by-side. The unified template ships **only
+what's truly universal** across both shapes. The 8 open questions:
 
-- **No skills** in `content/skills/` (every domain authors its own)
-- **No rules** in `content/rules/` (every domain authors its own)
-- **No agents** in `content/agents/` (every domain authors its own)
-- **No `bin/check-manifest`** (domain-code has one; not yet canonized as required)
-- **No `bin/lint`** (domain-code has one; not canonical)
-- **No `tasks/` folder** (domain-code has one for its own work-tracking; not part of the domain shape)
-- **No `docs/` folder** (domain-legal has one for legal-conduct docs; not part of the shape)
-- **No LICENSE** (not in canon required-files list; defer to per-domain decision)
+| # | Question | Decision | Why |
+|---|---|---|---|
+| 1 | `bin/check-manifest` required? | **YES** — included as canonical bin tool (pure-python, cross-platform — adapted from domain-legal) | Both implementations have it; validates manifest-driven install discipline |
+| 2 | `bin/lint` part of shape? | **NO** — domain-specific | Only domain-code uses; for its skill markdown linting |
+| 3 | `tasks/` part of shape? | **NO** — domain-specific | Domain-code uses for its own work-tracking; not part of Element contract |
+| 4 | `docs/` part of shape? | **NO** — domain-specific | Domain-legal ships legal-conduct docs; domains decide |
+| 5 | Universal seed templates beyond CLAUDE.md + rasa.lock.json? | **NO** — keep just 2 | Domain-code's 28 are engineering-toolkit-specific |
+| 6 | Universal `content/<subdirs>/`? | **None enforced**, ship toolkit scaffold (`skills/`, `rules/`, `agents/`) as opt-in; document both patterns in `content/SHAPE.md` | Forks adapt or delete |
+| 7 | LICENSE? | **YES — Apache-2.0** | Matches claude-kit + domain-legal lineage |
+| 8 | Stripped seed example? | **NO** | Two templates are enough; forks fork |
 
-**Phase 2 (next):** review `domain-code` and `domain-legal` side-by-side,
-extract the genuinely-shared shape (beyond canon required-files),
-lock it down here, version it in `domain-core`. Decisions like
-"is `bin/check-manifest` required for every domain?" + "is `tasks/`
-part of the domain shape?" + "what skills are universal vs
-domain-specific?" land in Phase 2.
+## What domain-core v1.0.0 ships
+
+**Universal (every domain Element):**
+- Canon-required files (§4): `rasa.json`, `VERSION`, `README.md`,
+  `CLAUDE.md`, `CHANGELOG.md`, `.gitignore`
+- `LICENSE` (Apache-2.0)
+- `content/` directory (required by §4 for `domain` kind)
+- `seed/` with 2 canonical templates: `CLAUDE.md.template` + `rasa.lock.json.template`
+- `bin/init` — canonical installer reading rasa.json policies
+- `bin/check-manifest` — cross-platform manifest validator
+- `content/SHAPE.md` — fork-time guide explaining the toolkit-vs-structural choice
+
+**Toolkit-shape starter scaffold (opt-in; structural-shape forks delete):**
+- `content/skills/.gitkeep` — empty subdir for skill folders
+- `content/rules/.gitkeep` — empty subdir for rule files
+- `content/agents/.gitkeep` — empty subdir for Claude subagent definitions
+
+## What domain-core v1.0.0 deliberately does NOT ship
+
+Per the Phase-2 decisions above, none of these are in the unified template:
+
+- Skills, rules, agents content (every domain authors its own)
+- `bin/lint` (domain-code-specific skill linting)
+- `bin/sync-report`, `bin/register-user` (domain-legal-specific operational tools)
+- `.cmd` Windows variants (domain-legal-specific market — but `bin/check-manifest` IS pure-python for cross-platform)
+- `modes/`, `dashboard/`, `build/`, `tests/` content subdirs (domain-code-specific)
+- `content/firm/`, `content/drives/`, `content/members/` (domain-legal-specific structural)
+- `tasks/` folder (domain-code-specific work-tracking)
+- `docs/` folder (domain-legal-specific conduct docs)
+- Skill templates / rule templates / agent templates (too domain-specific)
+- More than 2 seed templates (forks add their own)
+
+## Versioning intent (post-v1.0)
+
+- **Patch (1.0.x)** — typo fix, README clarification, bin/init or check-manifest bug fix. No structural change.
+- **Minor (1.0.x → 1.1.0)** — additive: a new canonical bin tool, a new universal seed template, a new optional `content/<subdir>/` scaffold. Forks may adopt opportunistically.
+- **Major (1.x.x → 2.0.0)** — breaking shape change. Forks REQUIRED to migrate. Avoid without explicit user direction.
+
+## Surfaced drift (not fixed here per role-split)
+
+Phase-2 analysis caught: **`rasa.domain.code` is missing `CLAUDE.md` at root** (canon ELEMENT_CONTRACT §4 violation). Domain-legal has it; domain-code doesn't. Flagged in canon AUDIT; for the domain-code team to fix next time they touch the repo.
 
 ## See also
 

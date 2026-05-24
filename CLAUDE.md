@@ -73,33 +73,48 @@ CHANGELOG.md entry. Commit + tag + push. Add a row to
 `~/rAI/rasa-os/elements/CHANGELOG.md` (aggregated track #2). Update
 `~/rAI/rasa-os/elements/REGISTRY.md` if the row's values change.
 
-## Phase 2 — Unified template work
+## Phase 2 — Unified template work (COMPLETE in v1.0.0)
 
-The current v0.1.0 is intentionally stripped. **Phase 2** (next session
-on this Element) reviews `domain-code` + `domain-legal` side-by-side,
-extracts the genuinely-shared shape, and locks it down here.
+Phase 2 reviewed `rasa.domain.code` (toolkit pattern) and
+`rasa.domain.legal` (structural pattern) side-by-side. Found that
+these aren't variants of one template — they're **two genuinely
+different domain shape patterns**:
 
-Open Phase-2 questions:
-1. Is `bin/check-manifest` required for every domain (domain-code has;
-   domain-legal doesn't)?
-2. Is `bin/lint` part of the shape (domain-code only)?
-3. Is `tasks/` (work-tracking folder structure) part of the domain
-   shape, or just the canon-author tenant's concern?
-4. Is `docs/` part of the shape (domain-legal has firm/conduct/policy
-   docs; domain-code doesn't)?
-5. What seed/ templates are universal? (rasa.lock.json.template,
-   CLAUDE.md.template, AUDIT.md.template, etc. — domain-code has 20+;
-   domain-legal has none)
-6. What `content/<subdirs>/` are universal? (skills/, rules/, agents/
-   are common; domain-legal adds drives/, firm/, members/ which are
-   legal-specific)
-7. License decision (Apache 2.0 like the historical claude-kit
-   lineage? something else?)
-8. What's a "stripped seed example" that ships in v1.0 to show forks
-   how to author their seed templates?
+- **Toolkit domain** (domain-code) — ships skills/rules/agents in
+  `content/`. 78 skill folders, 27 root rule files, 8 capabilities.
+- **Structural domain** (domain-legal) — ships organizational
+  templates (firm/, drives/, members/) in `content/`. 3 dirs, no
+  skills. 4 cross-platform bin scripts including `register-user`.
 
-When Phase 2 completes, v0.1.0 → v1.0.0 with the locked unified
-shape.
+Both ship the Element primitive (rasa.json + content/ + seed/ +
+bin/init); the internal shape of `content/` is what differs. The
+unified template enforces **only what's truly universal** and
+documents both patterns as valid choices via `content/SHAPE.md`.
+
+The 8 Phase-2 questions (decisions documented in CHANGELOG v1.0.0):
+
+1. ✓ `bin/check-manifest` — **included** (pure-python form from domain-legal; cross-platform)
+2. ✗ `bin/lint` — domain-code-specific; not in core
+3. ✗ `tasks/` — domain-code-specific; not in core
+4. ✗ `docs/` — domain-legal-specific; not in core
+5. ✗ Universal seed templates beyond CLAUDE.md + rasa.lock.json — none more
+6. ⚠ Universal `content/<subdirs>/` — none enforced; toolkit scaffold shipped as opt-in
+7. ✓ LICENSE — **Apache-2.0**
+8. ✗ Stripped seed example — two is enough
+
+When Phase 2 closed, v0.1.0 → v1.0.0 with the locked unified shape.
+
+## What changes post-v1.0.0 mean for forks
+
+- **Patch** — bug fix, no fork action needed.
+- **Minor** — additive (new canonical bin tool, new universal seed
+  template, new optional scaffold). Forks may adopt opportunistically;
+  not adopting is fine.
+- **Major** — breaking change. Forks REQUIRED to migrate. Avoid
+  without explicit user direction.
+
+A fork pinning to `domain-core v1.0.0` is committing to the v1.0
+shape forever; absorbing v1.x minors is optional.
 
 ## What success looks like for this Element
 

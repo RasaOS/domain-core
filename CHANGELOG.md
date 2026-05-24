@@ -4,6 +4,64 @@ Reverse-chronological. Each entry is a version bump.
 
 ---
 
+## 1.0.0 — 2026-05-24 — LOCKED unified shape (Phase 2 complete)
+
+First stable lock-down. Unified shape derived from side-by-side
+analysis of `rasa.domain.code` (toolkit pattern) and `rasa.domain.legal`
+(structural pattern). Forks may pin here; subsequent minor bumps
+are additive.
+
+### Added
+
+- **`LICENSE`** — Apache-2.0 (matches claude-kit + domain-legal historical lineage).
+- **`bin/check-manifest`** — cross-platform pure-python script (adapted from `rasa.domain.legal/bin/check-manifest`). Verifies rasa.json is a complete inventory of `content/` + `seed/` (coverage check) and that every rasa.json `from` entry points to an existing file (dangling check). Run before tagging an Element release; wire into CI.
+- **`content/SHAPE.md`** — fork-time guide documenting the two shape patterns:
+  - **Pattern 1 — Toolkit domain** (skills/rules/agents/build/tests like `rasa.domain.code`)
+  - **Pattern 2 — Structural domain** (firm/drives/members like `rasa.domain.legal`)
+  - **Pattern 3 — Hybrid** (mix of both; document clearly in fork's `content/README.md`)
+  - The template itself is shape-agnostic; forks pick at fork time.
+- **`content/{skills,rules,agents}/.gitkeep`** — toolkit-shape opt-in scaffold. Registered in rasa.json as `policy: opt-in` so they're tracked + check-manifest passes, but NOT installed automatically. Structural-shape forks delete + remove entries.
+
+### Changed
+
+- `rasa.json#version`: 0.1.0 → 1.0.0
+- `VERSION`: 0.1.0 → 1.0.0
+- `rasa.json#description` — rewritten around Phase 2 lock-down framing.
+- `rasa.json#rasa` — added `role: "domain-template"` + `shape_pattern: "agnostic"` declarations.
+- `rasa.json#element.files[]` — populated with 4 opt-in scaffold entries (SHAPE.md + skills/ + rules/ + agents/) for check-manifest coverage. Forks change policies as they populate.
+- `README.md` — Phase 2 decisions enumerated; v1.0.0 file layout; what-ships vs what-doesn't tables; versioning intent post-1.0; surfaced drift (domain-code missing CLAUDE.md) flagged.
+- `CLAUDE.md` — Phase 2 section marked COMPLETE; toolkit vs structural framing locked in.
+- `CHANGELOG.md` — this entry.
+
+### Phase-2 decision table
+
+| # | Question | Decision |
+|---|---|---|
+| 1 | `bin/check-manifest` required? | **YES** (pure-python form) |
+| 2 | `bin/lint` in shape? | **NO** (domain-code-specific) |
+| 3 | `tasks/` in shape? | **NO** (domain-code-specific) |
+| 4 | `docs/` in shape? | **NO** (domain-legal-specific) |
+| 5 | More universal seed templates? | **NO** (just CLAUDE.md.template + rasa.lock.json.template) |
+| 6 | Universal `content/<subdirs>/`? | **None enforced**; toolkit scaffold shipped opt-in |
+| 7 | LICENSE? | **YES — Apache-2.0** |
+| 8 | Stripped seed example? | **NO** (two templates suffice) |
+
+### Subtle install-policy gap (still open)
+
+`skip-if-exists` policy doesn't substitute placeholders; `init-only-with-sha` does but is documented as lockfile-specific. Current workaround: `seed/CLAUDE.md.template` is placeholder-free (Element identity available in `.claude/rasa.lock.json`). A future canon revision could add a `seed-with-substitution` policy to fill the taxonomy hole. Not blocking v1.0.0.
+
+### Surfaced drift (NOT fixed here, per role-split)
+
+- **`rasa.domain.code` is missing `CLAUDE.md` at root** (canon ELEMENT_CONTRACT §4 violation). Domain-legal has it; domain-code doesn't. Flagged in canon AUDIT for the domain-code team to fix next time they touch the repo.
+- **`rasa.domain.code` CLAUDE.md still uses legacy "kit" terminology** in its `docs/` (caught earlier in domain-code audit). Not Phase-2's job to fix.
+
+### Smoke-tested
+
+- `bin/check-manifest` → OK (5 tracked files under content/ + seed/, all registered)
+- `bin/init /tmp/dc-test` → clean install (2 files: CLAUDE.md + .claude/rasa.lock.json; opt-in scaffolds correctly NOT copied)
+
+---
+
 ## 0.1.0 — 2026-05-24
 
 ### Initial release — stripped-down domain template
