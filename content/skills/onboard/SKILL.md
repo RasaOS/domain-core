@@ -45,6 +45,9 @@ of guessing. Read-only: it reports, it never changes anything.
 - Don't dump whole files — summarize.
 - Don't invent a project description the `CLAUDE.md` doesn't support;
   if it's thin, say the project is under-documented.
+- Don't use this to pick up unfinished work mid-stride — that's the last
+  handoff's job → `/resume`. Onboard orients to the project; resume
+  resumes the work.
 
 ## Done when
 

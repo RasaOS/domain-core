@@ -78,7 +78,8 @@ domain-core/
 │   │   ├── codify/        # meta: promote a session rule into durable storage
 │   │   ├── sync/          # meta: reconcile installed content against upstream
 │   │   ├── onboard/       # capability: orient a session to the installed domain
-│   │   ├── handoff/       # capability: durable session checkpoint
+│   │   ├── handoff/       # capability: durable session checkpoint (+ .claude/HANDOFF.md pointer)
+│   │   ├── resume/        # capability: read-side of handoff — pick up in-flight work
 │   │   └── update-docs/   # capability: reconcile docs against reality
 │   ├── rules/             # universal rules + authoring conventions
 │   │   ├── README.md
@@ -146,7 +147,7 @@ install policies), never a subject. A fork keeps what fits its shape,
 deletes the rest, adds its own.
 
 - **Meta-skills** — `content/skills/new-skill/`, `.../codify/`, `.../sync/`
-- **Capability skills** — `content/skills/onboard/`, `.../handoff/`, `.../update-docs/`
+- **Capability skills** — `content/skills/onboard/`, `.../handoff/`, `.../resume/`, `.../update-docs/`
 - **Universal rules** — `content/rules/contract-rules.md`, `.../output-rules.md`
 - **Baseline conventions** — `content/README.md`, and `README.md` in
   `skills/`, `rules/`, `agents/` documenting how each is authored

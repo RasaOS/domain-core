@@ -21,9 +21,13 @@ replay.
 - **Be honest about done-ness.** Partial work is described as partial;
   a failing check is recorded as failing. A handoff that overstates
   progress is worse than none.
-- **Write durably.** Emit a dated handoff file (e.g.
-  `HANDOFF.md` or a project-conventional location). Ask if the target
-  isn't obvious. Never auto-commit.
+- **Write durably.** Emit a dated handoff file — default
+  `handoff/<date>.md` (or a top-level `HANDOFF.md` if the project has no
+  `handoff/` dir); ask only if neither fits. Also refresh a stable
+  pointer at `.claude/HANDOFF.md` — a short "where you left off" summary
+  ending in a relative link to the dated doc, rewritten in full each
+  run. The pointer is what `/resume` reads first to pick this up. Never
+  auto-commit.
 - **No secrets.** Don't write tokens, keys, or credentials into the
   handoff.
 
@@ -34,7 +38,8 @@ replay.
 2. Reconstruct the arc: goal, decisions + rationale, what got done.
 3. List in-flight items and blockers with enough specificity to resume.
 4. State the single clear next step.
-5. Write the handoff doc. Show the path. Leave it uncommitted.
+5. Write the dated handoff doc, then rewrite `.claude/HANDOFF.md` as a
+   short pointer linking it. Show both paths. Leave them uncommitted.
 
 ## Output shape
 
@@ -71,4 +76,5 @@ replay.
 ## Done when
 
 A dated handoff doc exists that a cold session could read and resume
-from — accurate about what's done, what's not, and what's next.
+from — accurate about what's done, what's not, and what's next — and
+`.claude/HANDOFF.md` points at it (the target `/resume` reads first).

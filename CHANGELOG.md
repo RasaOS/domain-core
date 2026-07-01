@@ -23,7 +23,8 @@ starter file references only the rasa Element contract (lockfile,
   - `codify/` — meta: promote a session-emergent rule into durable storage with its rationale.
   - `sync/` — meta: reconcile installed content against upstream; classify drift, respect overrides, advance `pinned_sha` only after applying.
   - `onboard/` — capability: read-only briefing orienting a session to the installed domain.
-  - `handoff/` — capability: durable session checkpoint (done / in-flight / blocked / next / state).
+  - `handoff/` — capability: durable session checkpoint (done / in-flight / blocked / next / state). Now also refreshes a stable `.claude/HANDOFF.md` pointer linking the dated doc — the read target `resume` picks up.
+  - `resume/` — capability: read-side counterpart to `handoff`. Reads the `.claude/HANDOFF.md` pointer (else discovers the newest dated handoff root-relative), calibrates it against git state since it was written, and leads with the one next action. Strictly read-only; distinct from `onboard` (which orients to the installed domain, not the unfinished work). Designed + adversarially verified via a multi-agent workflow.
   - `update-docs/` — capability: reconcile docs against reality (discover → reconcile → report → apply-on-approval), ported from `rasa.domain.code` and fully stripped of subject material — it discovers whatever docs a project has instead of assuming a fixed list. Forks extend the in-scope inventory with their own subject docs.
   - `README.md` — skill-authoring conventions (SKILL.md shape, plumbing-vs-judgment split, consent).
 - **Universal starter rules** under `content/rules/` (opt-in):
