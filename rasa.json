@@ -68,7 +68,7 @@
         "from": "seed/CLAUDE.md.template",
         "to": "CLAUDE.md",
         "policy": "skip-if-exists",
-        "note": "Per-project Claude session contract. Lives in install-target root; project-owned forever. Placeholder-free (Element identity lives in .claude/rasa.lock.json — current install-policy taxonomy doesn't substitute placeholders in skip-if-exists files; flagged in v0.1.0 AUDIT)."
+        "note": "Per-project Claude session contract. Lives in install-target root; project-owned forever. Placeholder-free BY DESIGN: Element identity (name/version/SHA) lives in .claude/rasa.lock.json, the single live source of truth. A skip-if-exists file is never rewritten, so hardcoding identity here would go stale on the first Element update — deferring to the lockfile is the correct choice, not a gap. (The install taxonomy also doesn't substitute placeholders in skip-if-exists files, which aligns with this.) The template points sessions at /onboard, /resume, and /sync from the starter layer."
       },
       {
         "from": "seed/rasa.lock.json.template",

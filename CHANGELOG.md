@@ -40,6 +40,7 @@ starter file references only the rasa Element contract (lockfile,
 - `rasa.json#description` + `element.description` — reframed around the v1.1.0 starter layer.
 - `rasa.json#element.files[]` — added the `content/README.md` entry; refreshed the `skills/`/`rules/`/`agents/` notes to describe the starter set they now carry. All remain `policy: opt-in`.
 - **`seed/rasa.lock.json.template`** — added `"version": "{{ELEMENT_VERSION}}"` under `element`. `bin/init` already substituted `{{ELEMENT_VERSION}}`, but no seed file consumed it — the substitution was dead. Now the stamped lockfile records the installed Element version, not just the pinned SHA. (Reconciles a v1.0.0 init/manifest inconsistency.)
+- **`seed/CLAUDE.md.template`** — reworked the seeded per-project contract: added a "Getting oriented" on-ramp (`/onboard` for a new session, `.claude/HANDOFF.md`/`/resume` for in-flight work), rewrote the update section to reference the starter-layer `/sync` skill and `overrides[]` discipline, and clarified in the header that identity is intentionally deferred to `.claude/rasa.lock.json` (never hardcoded, so it can't drift). rasa.json seed note reframed: placeholder-free is by-design (lockfile is the live source of truth), not a taxonomy gap.
 - Removed `content/{skills,rules,agents}/.gitkeep` — superseded now the directories carry real starter files.
 - `README.md` / `content/SHAPE.md` — updated to describe the starter layer instead of empty `.gitkeep` scaffold.
 
@@ -50,6 +51,7 @@ starter file references only the rasa Element contract (lockfile,
   `.claude/agents/`, and `content/` dirs in every consumer project.
   Opt-in now materializes nothing in the target. (Cosmetic, pre-existing
   since v1.0.0.)
+- **Stale seed placeholder** — `seed/CLAUDE.md.template` no longer ships the dead `# (replace with actual /sync invocation once the domain Element authors one)` line; the starter layer now provides `/sync`, and the template references it.
 - **Stale doc references** — `CLAUDE.md` v0.x-era instructions retired
   (the "don't ship LICENSE without a decision" Don't, pre-1.0 version-bump
   examples); `bin/init` header comment no longer claims "ships zero
