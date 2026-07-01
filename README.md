@@ -78,7 +78,8 @@ domain-core/
 │   │   ├── codify/        # meta: promote a session rule into durable storage
 │   │   ├── sync/          # meta: reconcile installed content against upstream
 │   │   ├── onboard/       # capability: orient a session to the installed domain
-│   │   └── handoff/       # capability: durable session checkpoint
+│   │   ├── handoff/       # capability: durable session checkpoint
+│   │   └── update-docs/   # capability: reconcile docs against reality
 │   ├── rules/             # universal rules + authoring conventions
 │   │   ├── README.md
 │   │   ├── contract-rules.md   # Element <-> consumer discipline (lockfile is truth)
@@ -145,7 +146,7 @@ install policies), never a subject. A fork keeps what fits its shape,
 deletes the rest, adds its own.
 
 - **Meta-skills** — `content/skills/new-skill/`, `.../codify/`, `.../sync/`
-- **Capability skills** — `content/skills/onboard/`, `.../handoff/`
+- **Capability skills** — `content/skills/onboard/`, `.../handoff/`, `.../update-docs/`
 - **Universal rules** — `content/rules/contract-rules.md`, `.../output-rules.md`
 - **Baseline conventions** — `content/README.md`, and `README.md` in
   `skills/`, `rules/`, `agents/` documenting how each is authored
@@ -154,11 +155,13 @@ deletes the rest, adds its own.
 
 > The v1.0.0 empty `.gitkeep` scaffold was superseded by this layer.
 
-## What domain-core v1.0.0 deliberately does NOT ship
+## What domain-core deliberately does NOT ship
 
 Per the Phase-2 decisions above, none of these are in the unified template:
 
-- Skills, rules, agents content (every domain authors its own)
+- **Subject-specific** skills, rules, or agents (every domain authors
+  its own — the v1.1.0 starter layer is *domain-agnostic* only, and all
+  opt-in)
 - `bin/lint` (domain-code-specific skill linting)
 - `bin/sync-report`, `bin/register-user` (domain-legal-specific operational tools)
 - `.cmd` Windows variants (domain-legal-specific market — but `bin/check-manifest` IS pure-python for cross-platform)

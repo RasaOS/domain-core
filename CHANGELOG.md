@@ -24,6 +24,7 @@ starter file references only the rasa Element contract (lockfile,
   - `sync/` — meta: reconcile installed content against upstream; classify drift, respect overrides, advance `pinned_sha` only after applying.
   - `onboard/` — capability: read-only briefing orienting a session to the installed domain.
   - `handoff/` — capability: durable session checkpoint (done / in-flight / blocked / next / state).
+  - `update-docs/` — capability: reconcile docs against reality (discover → reconcile → report → apply-on-approval), ported from `rasa.domain.code` and fully stripped of subject material — it discovers whatever docs a project has instead of assuming a fixed list. Forks extend the in-scope inventory with their own subject docs.
   - `README.md` — skill-authoring conventions (SKILL.md shape, plumbing-vs-judgment split, consent).
 - **Universal starter rules** under `content/rules/` (opt-in):
   - `contract-rules.md` — the Element ↔ consumer discipline: lockfile is the source of truth, installed content is borrowed not owned, overrides must be recorded, changes flow one direction.
@@ -40,6 +41,19 @@ starter file references only the rasa Element contract (lockfile,
 - **`seed/rasa.lock.json.template`** — added `"version": "{{ELEMENT_VERSION}}"` under `element`. `bin/init` already substituted `{{ELEMENT_VERSION}}`, but no seed file consumed it — the substitution was dead. Now the stamped lockfile records the installed Element version, not just the pinned SHA. (Reconciles a v1.0.0 init/manifest inconsistency.)
 - Removed `content/{skills,rules,agents}/.gitkeep` — superseded now the directories carry real starter files.
 - `README.md` / `content/SHAPE.md` — updated to describe the starter layer instead of empty `.gitkeep` scaffold.
+
+### Fixed
+
+- **`bin/init`** — the `opt-in` element.files handler created the target
+  directory before checking the policy, leaving empty `.claude/skills/`,
+  `.claude/agents/`, and `content/` dirs in every consumer project.
+  Opt-in now materializes nothing in the target. (Cosmetic, pre-existing
+  since v1.0.0.)
+- **Stale doc references** — `CLAUDE.md` v0.x-era instructions retired
+  (the "don't ship LICENSE without a decision" Don't, pre-1.0 version-bump
+  examples); `bin/init` header comment no longer claims "ships zero
+  content"; `README.md` "does NOT ship" list clarified (subject-specific
+  content only — the agnostic starter layer is the exception).
 
 ### Fork guidance
 

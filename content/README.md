@@ -40,7 +40,8 @@ content/
 │   ├── codify/        ← meta: promote a session convention into a durable rule
 │   ├── sync/          ← meta: absorb upstream Element changes into a fork/project
 │   ├── onboard/       ← capability: orient a fresh session to the installed domain
-│   └── handoff/       ← capability: write a session handoff/checkpoint
+│   ├── handoff/       ← capability: write a session handoff/checkpoint
+│   └── update-docs/   ← capability: reconcile docs against reality, propose surgical edits
 ├── rules/             ← universal rule files
 │   ├── README.md      ← how rules load + are authored
 │   ├── contract-rules.md   ← Element ↔ consumer discipline (the lockfile is truth)

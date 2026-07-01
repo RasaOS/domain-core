@@ -45,7 +45,7 @@
         "from": "content/skills/",
         "to": ".claude/skills/",
         "policy": "opt-in",
-        "note": "Universal starter skills (v1.1.0): new-skill, codify, sync, onboard, handoff + README conventions. Domain-agnostic — they reference only the Element contract (lockfile, pinned_sha, overrides, install policies), zero subject knowledge. Forks keep what fits, delete the rest, add their own, and flip policy to directory-mirror to install into consumer projects."
+        "note": "Universal starter skills (v1.1.0): new-skill, codify, sync, onboard, handoff, update-docs + README conventions. Domain-agnostic — they reference only the Element contract (lockfile, pinned_sha, overrides, install policies), zero subject knowledge. Forks keep what fits, delete the rest, add their own, and flip policy to directory-mirror to install into consumer projects."
       },
       {
         "from": "content/rules/",

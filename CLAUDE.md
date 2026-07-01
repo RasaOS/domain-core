@@ -10,7 +10,11 @@ absolute paths.)
 
 You are working on **`rasa.domain.core`** — the stripped-down canonical
 template every `domain` Element follows. The Element ships **zero
-domain knowledge**; it's the SHAPE every domain shares.
+domain knowledge**; it's the SHAPE every domain shares. As of v1.1.0 it
+also ships a small, **domain-agnostic opt-in starter layer** under
+`content/` (meta-skills, universal rules, authoring conventions) that
+references only the Element contract — still zero subject knowledge.
+See `README.md` + `content/README.md`.
 
 Two distinct concerns:
 - **The template** (this folder) — the canonical shape. The
@@ -59,22 +63,22 @@ matters: domain-core v0.x → v1.0 is the lock-down moment.
   (vocabulary, output styles, stamp definitions). `rasa.domain.core`
   is the template for the `domain` KIND. They share a word, not a
   concern.
-- **Don't ship LICENSE in v0.1.x without a decision pass.** Apache 2.0
-  is the planned default (matches claude-kit historical lineage), but
-  formal adoption belongs in Phase 2.
-- **Don't bump the major version casually.** v0.x is the "still
-  defining the shape" range. v1.0.0 is the lock-down moment that
-  signals "this shape is stable; forks may pin and update predictably."
+- **Don't bump the major version casually.** The shape locked at
+  v1.0.0: "this shape is stable; forks may pin and update predictably."
+  A major (→ 2.0.0) is a breaking shape change that forces every fork
+  to migrate — only with explicit user direction. Minors stay additive.
 
 ## How a version bump works
 
-- **Patch (0.1.0 → 0.1.1)** — typo fix, README clarification, minimal
-  bin/init bug fix. No structural change.
-- **Minor (0.1.x → 0.2.0)** — new required file added to the template,
-  new content/<subdir>/, new seed/ template, capability category. Forks
-  may need to adopt but aren't broken.
-- **Major (0.x.x → 1.0.0)** — first stable lock-down OR a breaking
-  shape change after 1.0. Forks REQUIRED to migrate.
+Post-1.0 the shape is locked; bumps read against that lock:
+
+- **Patch (1.1.0 → 1.1.1)** — typo fix, README/doc clarification,
+  minimal bin/init or check-manifest bug fix. No structural change.
+- **Minor (1.1.x → 1.2.0)** — additive: a new opt-in starter skill or
+  rule, a new canonical bin tool, a new universal seed template. Forks
+  may adopt opportunistically; not adopting is fine.
+- **Major (1.x.x → 2.0.0)** — a breaking shape change. Forks REQUIRED
+  to migrate. Avoid without explicit user direction.
 
 Each bump: edit `VERSION`, update `rasa.json#version`, write a
 CHANGELOG.md entry. Commit + tag + push. Add a row to the workspace's
@@ -111,6 +115,12 @@ The 8 Phase-2 questions (decisions documented in CHANGELOG v1.0.0):
 8. ✗ Stripped seed example — two is enough
 
 When Phase 2 closed, v0.1.0 → v1.0.0 with the locked unified shape.
+
+**v1.1.0 built on Q6:** the empty opt-in scaffold (`skills/`, `rules/`,
+`agents/` as bare `.gitkeep`) was replaced with a domain-agnostic
+opt-in **starter layer** — meta-skills, universal rules, and authoring
+conventions that reference only the Element contract. Still additive
+and non-breaking; still zero subject knowledge. See CHANGELOG v1.1.0.
 
 ## What changes post-v1.0.0 mean for forks
 
