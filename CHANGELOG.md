@@ -4,6 +4,52 @@ Reverse-chronological. Each entry is a version bump.
 
 ---
 
+## 1.1.0 — 2026-07-01 — Universal opt-in starter layer
+
+Additive, non-breaking. Forks pinned to v1.0.0 are unaffected; they may
+adopt any of this opportunistically (keep what fits, delete the rest).
+The template's core promise is intact: **zero domain knowledge**. Every
+starter file references only the rasa Element contract (lockfile,
+`pinned_sha`, `overrides[]`, install policies) — no subject material.
+
+### Added
+
+- **`content/README.md`** — fork-time guide to the universal starter
+  layer: what ships, why it's domain-agnostic, how forks adopt/extend/
+  delete it. Registered `policy: opt-in` (not installed into consumers;
+  deleted at fork time alongside `SHAPE.md`).
+- **Universal starter skills** under `content/skills/` (opt-in):
+  - `new-skill/` — meta: scaffold a new skill following canonical conventions.
+  - `codify/` — meta: promote a session-emergent rule into durable storage with its rationale.
+  - `sync/` — meta: reconcile installed content against upstream; classify drift, respect overrides, advance `pinned_sha` only after applying.
+  - `onboard/` — capability: read-only briefing orienting a session to the installed domain.
+  - `handoff/` — capability: durable session checkpoint (done / in-flight / blocked / next / state).
+  - `README.md` — skill-authoring conventions (SKILL.md shape, plumbing-vs-judgment split, consent).
+- **Universal starter rules** under `content/rules/` (opt-in):
+  - `contract-rules.md` — the Element ↔ consumer discipline: lockfile is the source of truth, installed content is borrowed not owned, overrides must be recorded, changes flow one direction.
+  - `output-rules.md` — house communication style (blunt/calibrated, faithful reporting, altitude, structured-ask → structured-response).
+  - `README.md` — rule-authoring conventions + load order.
+- **`content/agents/README.md`** (opt-in) — subagent conventions. Ships **no** starter agents by design: subagents are inherently subject-specific, so none is domain-agnostic enough to belong in the template.
+
+### Changed
+
+- `VERSION`: 1.0.0 → 1.1.0
+- `rasa.json#version`: 1.0.0 → 1.1.0
+- `rasa.json#description` + `element.description` — reframed around the v1.1.0 starter layer.
+- `rasa.json#element.files[]` — added the `content/README.md` entry; refreshed the `skills/`/`rules/`/`agents/` notes to describe the starter set they now carry. All remain `policy: opt-in`.
+- **`seed/rasa.lock.json.template`** — added `"version": "{{ELEMENT_VERSION}}"` under `element`. `bin/init` already substituted `{{ELEMENT_VERSION}}`, but no seed file consumed it — the substitution was dead. Now the stamped lockfile records the installed Element version, not just the pinned SHA. (Reconciles a v1.0.0 init/manifest inconsistency.)
+- Removed `content/{skills,rules,agents}/.gitkeep` — superseded now the directories carry real starter files.
+- `README.md` / `content/SHAPE.md` — updated to describe the starter layer instead of empty `.gitkeep` scaffold.
+
+### Fork guidance
+
+A fork keeps whatever starter files fit its shape pattern, deletes the
+rest, adds its own, and flips the relevant `content/` policies from
+`opt-in` to `directory-mirror`/`file-replace` to install into consumer
+projects. Run `bin/check-manifest` after any add/remove.
+
+---
+
 ## 1.0.0 — 2026-05-24 — LOCKED unified shape (Phase 2 complete)
 
 First stable lock-down. Unified shape derived from side-by-side

@@ -2,14 +2,14 @@
   "$schema": "https://rasa-os.github.io/schema/rasa.schema.v1.json",
   "contract_version": "1.3.0",
   "name": "rasa.domain.core",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "kind": "domain",
   "aliases": [
     "domain-core",
     "rasa-domain-template",
     "domain-template"
   ],
-  "description": "RasaOS Domain · Core. The unified canonical template every domain Element follows. Locked-down v1.0.0 shape (Phase 2 complete): canon-required files (§4) + bin/init + bin/check-manifest + Apache-2.0 LICENSE + content/SHAPE.md documenting the two shape patterns (toolkit + structural) + scaffold subdirs (skills/, rules/, agents/ as opt-in starter for toolkit-shape forks).\n\nFork this to author a new domain. Decide upfront which shape pattern fits — toolkit (skills/rules/agents like rasa.domain.code), structural (firm/drives/members like rasa.domain.legal), or hybrid. Delete SHAPE.md from your fork; replace with your domain's content/README.md. The Element ships zero domain knowledge — only the universal shape.\n\nDistinct from rasa.core (kind: core, the L1 shared bones every Element depends on). domain-core is the template for the domain KIND; rasa.core is the L1 dependency. Different concerns; both named 'core' for canonical positioning.",
+  "description": "RasaOS Domain · Core. The unified canonical template every domain Element follows. Locked v1.0.0 shape (Phase 2 complete) + v1.1.0 universal starter layer: canon-required files (§4) + bin/init + bin/check-manifest + Apache-2.0 LICENSE + content/SHAPE.md documenting the shape patterns (toolkit/structural/hybrid) + a domain-agnostic opt-in starter set under content/ — meta-skills (new-skill, codify, sync), capability skills (onboard, handoff), universal rules (contract-rules, output-rules), and README conventions for skills/rules/agents. The starter set references only the Element contract (lockfile, pinned_sha, overrides, install policies) — zero subject knowledge. All opt-in: nothing installs into a consumer project until a fork flips the policy.\n\nFork this to author a new domain. Decide upfront which shape pattern fits — toolkit (skills/rules/agents like rasa.domain.code), structural (firm/drives/members like rasa.domain.legal), or hybrid. Keep the starter files that fit, delete the rest, add your own. Delete README.md + SHAPE.md from your fork; replace with your domain's own content/README.md. The Element ships zero domain knowledge — only the universal shape + subject-neutral starters.\n\nDistinct from rasa.core (kind: core, the L1 shared bones every Element depends on). domain-core is the template for the domain KIND; rasa.core is the L1 dependency. Different concerns; both named 'core' for canonical positioning.",
   "source": {
     "repo": "https://github.com/RasaOS/domain-core",
     "branch": "main"
@@ -27,8 +27,14 @@
     "note": "Canonical domain template per canon ELEMENT_CONTRACT.md v1.3+ §4 (required files) + §7 (install policies). v1.0.0 is the locked-down shape: forks may pin to this version and absorb later minor bumps as additive. shape_pattern='agnostic' here flags that this template does not commit to toolkit/structural/hybrid; forks set their own. See content/SHAPE.md for the choice."
   },
   "element": {
-    "description": "Files mirrored into the install target per canon ELEMENT_CONTRACT.md §7. The v1.0.0 template ships these as opt-in scaffold — registered for check-manifest coverage but not installed automatically. Forks change the policy to directory-mirror/file-replace as they populate content/.",
+    "description": "Files mirrored into the install target per canon ELEMENT_CONTRACT.md §7. As of v1.1.0 the template ships a domain-agnostic starter set under content/ — all registered here as opt-in: covered by check-manifest, but NOT installed automatically. Forks change the policy to directory-mirror/file-replace as they adopt/extend content/.",
     "files": [
+      {
+        "from": "content/README.md",
+        "to": "content/README.md",
+        "policy": "opt-in",
+        "note": "Fork-time guide to the v1.1.0 universal starter layer — what ships, why it's domain-agnostic, how forks adopt/extend/delete it. Not installed into consumer projects. Forks delete this + SHAPE.md and replace with their own content/README.md."
+      },
       {
         "from": "content/SHAPE.md",
         "to": "content/SHAPE.md",
@@ -39,19 +45,19 @@
         "from": "content/skills/",
         "to": ".claude/skills/",
         "policy": "opt-in",
-        "note": "Toolkit-shape scaffold subdir. Forks that adopt the toolkit pattern populate this and change policy to directory-mirror. Structural-shape forks delete this entry + the directory."
+        "note": "Universal starter skills (v1.1.0): new-skill, codify, sync, onboard, handoff + README conventions. Domain-agnostic — they reference only the Element contract (lockfile, pinned_sha, overrides, install policies), zero subject knowledge. Forks keep what fits, delete the rest, add their own, and flip policy to directory-mirror to install into consumer projects."
       },
       {
         "from": "content/rules/",
         "to": ".claude/",
         "policy": "opt-in",
-        "note": "Toolkit-shape scaffold subdir. Forks adopting toolkit add rule .md files here + change policy. Note canonical install target is .claude/ root (rules install flat per domain-code precedent)."
+        "note": "Universal starter rules (v1.1.0): contract-rules.md (Element <-> consumer discipline), output-rules.md (house style) + README conventions. Canonical install target is .claude/ root (rules install flat per domain-code precedent). Forks add subject rules here + flip policy."
       },
       {
         "from": "content/agents/",
         "to": ".claude/agents/",
         "policy": "opt-in",
-        "note": "Toolkit-shape scaffold subdir for Claude subagent definitions. Forks adopting toolkit add agent .md files here + change policy to directory-mirror."
+        "note": "Subagent scaffold + README conventions. Ships no starter agents by design — subagents are inherently subject-specific, so there's no domain-agnostic one worth shipping. Forks add agent .md files here + flip policy to directory-mirror."
       }
     ]
   },

@@ -1,9 +1,10 @@
 # CLAUDE.md — `rasa.domain.core`
 
 Per-repo working contract for Claude sessions opened inside this
-folder. Extends `~/.claude/CLAUDE.md` and the workspace
-`~/rAI/rasa-os/CLAUDE.md` (which is the `rasa.tenant.rasaos` tenant's
-CLAUDE.md); does not override them.
+folder. Extends the user-level Claude contract and the workspace
+contract of the `rasa.tenant.rasaos` tenant; does not override them.
+(Referenced by identity, not filesystem path — this template pins no
+absolute paths.)
 
 ## What you are when you're in this folder
 
@@ -12,9 +13,9 @@ template every `domain` Element follows. The Element ships **zero
 domain knowledge**; it's the SHAPE every domain shares.
 
 Two distinct concerns:
-- **The template** (this folder) — the canonical shape. Lives at
-  `~/rAI/rasa-os/elements/domain-core/`. Pushed to `RasaOS/domain-core`
-  (public).
+- **The template** (this folder) — the canonical shape. The
+  `domain-core` Element in the `rasa.tenant.rasaos` workspace; pushed to
+  `RasaOS/domain-core` (public).
 - **The forks** (e.g., `domain-code`, `domain-legal`) — concrete domain
   Elements that adopt this shape and populate it with domain-specific
   skills, rules, agents.
@@ -25,19 +26,26 @@ matters: domain-core v0.x → v1.0 is the lock-down moment.
 
 ## Source of truth
 
-- **`~/rAI/rasa-os/canon/`** — authoritative for everything architectural.
-  Current LOCKED is v1.2.0; current WORKING is v1.3.0 IN PROGRESS.
-  Spec §6 defines the `domain` kind; ELEMENT_CONTRACT.md is the
-  contract domain-core conforms to.
-- **`~/rAI/rasa-os/CLAUDE.md`** — workspace orientation (the
-  `rasa.tenant.rasaos` tenant's working contract); the role-split is
-  there.
+- **The workspace canon** (the `canon/` tree in the `rasa.tenant.rasaos`
+  workspace) — authoritative for everything architectural. Current
+  LOCKED is v1.2.0; current WORKING is v1.3.0 IN PROGRESS. Spec §6
+  defines the `domain` kind; ELEMENT_CONTRACT.md is the contract
+  domain-core conforms to.
+- **The workspace `CLAUDE.md`** (the `rasa.tenant.rasaos` tenant's
+  working contract) — workspace orientation; the role-split is there.
 - **This folder's `README.md`** — what this Element is, how to fork it,
   what's deliberately stripped.
 - **This folder's `rasa.json`** — formal declaration.
 
 ## Don'ts
 
+- **Don't hardcode filesystem paths — ever.** No absolute or
+  home-anchored paths (`~/…`, `/Users/…`, a workspace-specific tree) in
+  this template's base-level files or a fork's. Reference other
+  Elements by name/repo slug, the canon and workspace by role, and
+  files inside the Element by paths relative to its root. A reference
+  must survive a `git clone` anywhere. (This is codified as a universal
+  rule in `content/rules/contract-rules.md` so every fork inherits it.)
 - **Don't add domain-specific content here.** This is the template;
   domain-specific material goes in a fork (`domain-code`, `domain-legal`,
   etc.). If a piece of content is universal to ALL domains, it MAY
@@ -69,9 +77,9 @@ matters: domain-core v0.x → v1.0 is the lock-down moment.
   shape change after 1.0. Forks REQUIRED to migrate.
 
 Each bump: edit `VERSION`, update `rasa.json#version`, write a
-CHANGELOG.md entry. Commit + tag + push. Add a row to
-`~/rAI/rasa-os/elements/CHANGELOG.md` (aggregated track #2). Update
-`~/rAI/rasa-os/elements/REGISTRY.md` if the row's values change.
+CHANGELOG.md entry. Commit + tag + push. Add a row to the workspace's
+aggregated elements `CHANGELOG.md` (track #2). Update the workspace
+elements `REGISTRY.md` if the row's values change.
 
 ## Phase 2 — Unified template work (COMPLETE in v1.0.0)
 

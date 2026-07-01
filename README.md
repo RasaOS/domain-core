@@ -60,7 +60,7 @@ git remote set-url origin git@github.com:<your-org>/domain-<yourname>.git
 ```
 domain-core/
 ├── rasa.json              # Connection Contract — kind=domain, contract_version=1.3.0
-├── VERSION                # semver, currently 1.0.0
+├── VERSION                # semver, currently 1.1.0
 ├── README.md              # this file
 ├── CLAUDE.md              # per-repo working contract for sessions on this template
 ├── CHANGELOG.md           # version history
@@ -69,11 +69,22 @@ domain-core/
 ├── bin/
 │   ├── init               # canonical installer: applies rasa.json policies + stamps lockfile
 │   └── check-manifest     # validates rasa.json is a complete inventory of content/+seed/ (cross-platform pure-python)
-├── content/
-│   ├── SHAPE.md           # explains the two shape patterns (toolkit vs structural); fork-time guide
-│   ├── skills/.gitkeep    # toolkit-shape scaffold — forks adopting toolkit populate + switch policy
-│   ├── rules/.gitkeep     # toolkit-shape scaffold
-│   └── agents/.gitkeep    # toolkit-shape scaffold
+├── content/              # universal opt-in starter layer (v1.1.0) — fork keeps/deletes
+│   ├── README.md          # guide to the starter layer; fork-time (deleted on fork)
+│   ├── SHAPE.md           # explains the shape patterns (toolkit/structural/hybrid); fork-time
+│   ├── skills/            # domain-agnostic starter skills + authoring conventions
+│   │   ├── README.md
+│   │   ├── new-skill/     # meta: scaffold a new skill
+│   │   ├── codify/        # meta: promote a session rule into durable storage
+│   │   ├── sync/          # meta: reconcile installed content against upstream
+│   │   ├── onboard/       # capability: orient a session to the installed domain
+│   │   └── handoff/       # capability: durable session checkpoint
+│   ├── rules/             # universal rules + authoring conventions
+│   │   ├── README.md
+│   │   ├── contract-rules.md   # Element <-> consumer discipline (lockfile is truth)
+│   │   └── output-rules.md     # house communication style
+│   └── agents/            # subagent conventions (no starter agents — subject-specific)
+│       └── README.md
 └── seed/
     ├── CLAUDE.md.template       # per-project Claude session contract (placeholder-free)
     └── rasa.lock.json.template  # canonical lockfile shape (substituted at install)
@@ -91,7 +102,7 @@ All present:
 | `CLAUDE.md` | ✓ |
 | `CHANGELOG.md` | ✓ |
 | `.gitignore` | ✓ |
-| `content/` | ✓ (skeleton — empty subdirs) |
+| `content/` | ✓ (v1.1.0 universal opt-in starter layer) |
 | `seed/` | ✓ (with 2 canonical templates) |
 | `bin/init` | ✓ (minimal — applies policies + stamps lockfile) |
 
@@ -124,10 +135,24 @@ what's truly universal** across both shapes. The 8 open questions:
 - `bin/check-manifest` — cross-platform manifest validator
 - `content/SHAPE.md` — fork-time guide explaining the toolkit-vs-structural choice
 
-**Toolkit-shape starter scaffold (opt-in; structural-shape forks delete):**
-- `content/skills/.gitkeep` — empty subdir for skill folders
-- `content/rules/.gitkeep` — empty subdir for rule files
-- `content/agents/.gitkeep` — empty subdir for Claude subagent definitions
+## What v1.1.0 adds — the universal opt-in starter layer
+
+All **opt-in** (`policy: opt-in`): registered for check-manifest
+coverage, but **not** installed into a consumer project until a fork
+flips the policy. Every file is domain-agnostic — it references only
+the rasa Element contract (lockfile, `pinned_sha`, `overrides[]`,
+install policies), never a subject. A fork keeps what fits its shape,
+deletes the rest, adds its own.
+
+- **Meta-skills** — `content/skills/new-skill/`, `.../codify/`, `.../sync/`
+- **Capability skills** — `content/skills/onboard/`, `.../handoff/`
+- **Universal rules** — `content/rules/contract-rules.md`, `.../output-rules.md`
+- **Baseline conventions** — `content/README.md`, and `README.md` in
+  `skills/`, `rules/`, `agents/` documenting how each is authored
+- `content/agents/` ships conventions but **no** starter agents —
+  subagents are inherently subject-specific
+
+> The v1.0.0 empty `.gitkeep` scaffold was superseded by this layer.
 
 ## What domain-core v1.0.0 deliberately does NOT ship
 
@@ -158,9 +183,9 @@ Phase-2 analysis caught: **`rasa.domain.code` is missing `CLAUDE.md` at root** (
 
 - Canon Spec §6 (Element kinds — `domain` definition)
 - Canon ELEMENT_CONTRACT.md (every Element follows this)
-- `~/rAI/rasa-os/elements/domain-code/` (engineering domain — most mature implementation)
-- `~/rAI/rasa-os/elements/domain-legal/` (legal domain — second implementation)
-- `~/rAI/rasa-os/elements/REGISTRY.md` (live snapshot of every Element under workspace management)
+- The `rasa.domain.code` Element / `RasaOS/domain-code` (engineering domain — most mature toolkit implementation)
+- The `rasa.domain.legal` Element / `RasaOS/domain-legal` (legal domain — structural implementation)
+- The workspace elements registry (`REGISTRY.md` — live snapshot of every Element under workspace management)
 
 ## License
 

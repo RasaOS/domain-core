@@ -105,11 +105,16 @@ Allowed; no contract violation. Document clearly in the fork's
 
 ## Which pattern does `rasa.domain.core` v1.0.0 commit to?
 
-**None.** The template ships only `content/skills/`, `content/rules/`,
-`content/agents/` as placeholder scaffold for toolkit-shaped forks
-(easy to delete if going structural or hybrid). This very `SHAPE.md`
-file documents the choice; fork-time, delete this file and replace
-with your domain's `content/README.md`.
+**None.** As of v1.1.0 the template ships a small, domain-agnostic
+**opt-in starter layer** under `content/skills/`, `content/rules/`,
+`content/agents/` (see `content/README.md`) — meta-skills, universal
+rules, and authoring conventions that reference only the Element
+contract, never a subject. It's a running start, not a commitment to a
+pattern: a toolkit fork keeps most of it, a structural fork keeps the
+Element-mechanics skills (`sync`, `codify`) and deletes the rest. All
+opt-in — nothing installs into a consumer until a fork flips the
+policy. Fork-time, delete this `SHAPE.md` and `content/README.md` and
+replace with your domain's own `content/README.md`.
 
 What the template enforces is the **Element primitive** (`rasa.json`
 + `content/` + `seed/` + `bin/init`) per canon, not the internal shape
@@ -122,5 +127,5 @@ of `content/`.
 - Canon Spec §6 — the `domain` kind definition
 - Canon ELEMENT_CONTRACT.md §2 — kinds table
 - Canon ELEMENT_CONTRACT.md §7 — install policies (apply equally to both shapes)
-- `~/rAI/rasa-os/elements/domain-code/content/` — Pattern 1 reference (toolkit)
-- `~/rAI/rasa-os/elements/domain-legal/content/` — Pattern 2 reference (structural)
+- The `rasa.domain.code` Element's `content/` (`RasaOS/domain-code`) — Pattern 1 reference (toolkit)
+- The `rasa.domain.legal` Element's `content/` (`RasaOS/domain-legal`) — Pattern 2 reference (structural)
