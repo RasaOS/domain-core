@@ -106,6 +106,9 @@ curated source, not a junk drawer of project-local edits.
 - Run `bin/check-manifest` — `rasa.json` must be a complete, accurate
   inventory of `content/` + `seed/`. An unregistered file silently
   never ships.
+- Run `bin/check-shape` — everything under `content/` must conform to
+  the templated shape (see `authoring-rules.md`). A skill without a
+  behavior contract or a done-definition doesn't ship.
 - Bump `VERSION` + `rasa.json#version` together; write a `CHANGELOG.md`
   entry. Patch = fix, Minor = additive (forks adopt optionally), Major
   = breaking (forks must migrate).

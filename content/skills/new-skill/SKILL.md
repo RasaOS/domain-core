@@ -43,14 +43,18 @@ an existing skill, say so — don't default to "yes, let's make one".
 1. Ask the six questions. Stop until answered.
 2. Decide folder: `content/skills/<name>/` (Element) or
    `.claude/skills/<name>/` (project-local).
-3. Write `SKILL.md` — frontmatter (name + a description built from the
-   purpose and triggers) and the body sections from `skills/README.md`,
-   each seeded with a `TODO:` reflecting the user's answers.
+3. Copy `content/templates/SKILL.md.template` to the chosen path and
+   fill it — frontmatter (name + a description built from the purpose
+   and triggers), each body section seeded from the user's answers,
+   with an explicit `TODO:` wherever judgment is still missing. Don't
+   freehand the shape; the template is the contract
+   (`rules/authoring-rules.md`).
 4. If the split is partial/full, stub the script file next to it and
    note the plumbing/judgment boundary in the contract.
 5. Show the path and the skeleton. Do not commit.
-6. Remind: run `bin/check-manifest` if this added a file to an Element
-   so `rasa.json` stays a complete inventory.
+6. Remind: for an Element-level skill, run `bin/check-shape` (structure)
+   and `bin/check-manifest` (inventory) — both must pass before the
+   skill ships.
 
 ## What NOT to do
 

@@ -32,6 +32,12 @@ starter file references only the rasa Element contract (lockfile,
   - `output-rules.md` — house communication style (blunt/calibrated, faithful reporting, altitude, structured-ask → structured-response).
   - `README.md` — rule-authoring conventions + load order.
 - **`content/agents/README.md`** (opt-in) — subagent conventions. Ships **no** starter agents by design: subagents are inherently subject-specific, so none is domain-agnostic enough to belong in the template.
+- **Template enforcement layer** — the shape is templated first, then followed:
+  - `content/templates/` (opt-in) — the enforced authoring skeletons: `SKILL.md.template`, `rule.md.template`, `agent.md.template` + README. Copy, fill every TODO — don't freehand. Authoring-time, not install-time (forks typically keep the entry opt-in).
+  - **`bin/check-shape`** — the STRUCTURE gate, complementing `bin/check-manifest`'s INVENTORY gate. Pure-python, cross-platform, fork-safe (validates only what exists — a structural-shape domain with no `skills/` passes clean). Hard-fails on: skill dirs without `SKILL.md`, missing/mismatched frontmatter `name`, unfilled TODO trigger surfaces (skill/agent descriptions, rule H1s), missing required sections (`Behavior contract` / `Process` / `What NOT to do` / `Done when`), rule files not named `<topic>-rules.md`, agents missing `name`/`description`/`tools`. Warns on skills absent from the `rasa.json` enumerating note. Hardened by adversarial fixture testing: fence-quoted headings don't satisfy section checks, hyphenated skill names don't mask registry warnings, non-UTF-8 files get a diagnostic instead of a crash. Accepts an optional root arg for validating a fork from anywhere.
+  - `content/rules/authoring-rules.md` — the structured process, codified so every fork inherits it: template → fill → validate (`check-shape` + `check-manifest`, both release gates) → register → record.
+  - `new-skill` now scaffolds by copying `SKILL.md.template`; the skills/rules/agents READMEs point at the templates as the single source of shape; `contract-rules.md`'s pre-tag checklist gains the `check-shape` gate.
+  - Dogfooded: the validator immediately caught real drift in our own content (`update-docs` shipped with variant headings from its domain-code port — normalized to the canonical sections).
 
 ### Changed
 

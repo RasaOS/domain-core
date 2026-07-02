@@ -4,8 +4,8 @@
 **Repo / folder:** `domain-core`
 **Kind:** `domain` (canon Spec §6)
 **Contract:** Element Contract v1.3.0
-**Version:** 1.0.0 (LOCKED unified shape, Phase 2 complete)
-**Status:** **v1.0.0 — first stable lock-down.** Unified shape derived from side-by-side analysis of `rasa.domain.code` (toolkit pattern) and `rasa.domain.legal` (structural pattern). Forks may pin here; minor bumps are additive.
+**Version:** 1.1.0 (locked v1.0.0 shape + v1.1.0 starter/enforcement layer)
+**Status:** **v1.1.0 — stable.** The shape locked at v1.0.0 (unified from side-by-side analysis of `rasa.domain.code`, toolkit pattern, and `rasa.domain.legal`, structural pattern). v1.1.0 adds the opt-in universal starter layer + template enforcement — additive; forks may pin to v1.0.0 and adopt minors opportunistically.
 
 ## What this is
 
@@ -55,7 +55,7 @@ git remote set-url origin git@github.com:<your-org>/domain-<yourname>.git
 # 7. Bump version, commit, tag v0.1.0, push
 ```
 
-## File layout (v1.0.0 locked)
+## File layout (v1.0.0 locked shape, v1.1.0 content)
 
 ```
 domain-core/
@@ -68,7 +68,8 @@ domain-core/
 ├── .gitignore             # macOS + editor cruft + .claude/rasa.lock.json
 ├── bin/
 │   ├── init               # canonical installer: applies rasa.json policies + stamps lockfile
-│   └── check-manifest     # validates rasa.json is a complete inventory of content/+seed/ (cross-platform pure-python)
+│   ├── check-manifest     # the INVENTORY gate: rasa.json is a complete inventory of content/+seed/ (pure-python)
+│   └── check-shape        # the STRUCTURE gate: content/ conforms to the templated shape (pure-python)
 ├── content/              # universal opt-in starter layer (v1.1.0) — fork keeps/deletes
 │   ├── README.md          # guide to the starter layer; fork-time (deleted on fork)
 │   ├── SHAPE.md           # explains the shape patterns (toolkit/structural/hybrid); fork-time
@@ -84,7 +85,9 @@ domain-core/
 │   ├── rules/             # universal rules + authoring conventions
 │   │   ├── README.md
 │   │   ├── contract-rules.md   # Element <-> consumer discipline (lockfile is truth)
-│   │   └── output-rules.md     # house communication style
+│   │   ├── output-rules.md     # house communication style
+│   │   └── authoring-rules.md  # the enforced authoring lifecycle
+│   ├── templates/         # enforced authoring skeletons (skill / rule / agent)
 │   └── agents/            # subagent conventions (no starter agents — subject-specific)
 │       └── README.md
 └── seed/
@@ -148,7 +151,10 @@ deletes the rest, adds its own.
 
 - **Meta-skills** — `content/skills/new-skill/`, `.../codify/`, `.../sync/`
 - **Capability skills** — `content/skills/onboard/`, `.../handoff/`, `.../resume/`, `.../update-docs/`
-- **Universal rules** — `content/rules/contract-rules.md`, `.../output-rules.md`
+- **Universal rules** — `content/rules/contract-rules.md`, `.../output-rules.md`, `.../authoring-rules.md`
+- **Enforced authoring templates** — `content/templates/` (skill / rule /
+  agent skeletons); the shape is templated first, then followed —
+  `bin/check-shape` is the enforcement and a release gate
 - **Baseline conventions** — `content/README.md`, and `README.md` in
   `skills/`, `rules/`, `agents/` documenting how each is authored
 - `content/agents/` ships conventions but **no** starter agents —
@@ -170,7 +176,10 @@ Per the Phase-2 decisions above, none of these are in the unified template:
 - `content/firm/`, `content/drives/`, `content/members/` (domain-legal-specific structural)
 - `tasks/` folder (domain-code-specific work-tracking)
 - `docs/` folder (domain-legal-specific conduct docs)
-- Skill templates / rule templates / agent templates (too domain-specific)
+- ~~Skill/rule/agent templates~~ — *reversed in v1.1.0*: domain-agnostic
+  authoring skeletons now ship at `content/templates/`, enforced by
+  `bin/check-shape` (what stays out is *subject-specific* template
+  content)
 - More than 2 seed templates (forks add their own)
 
 ## Versioning intent (post-v1.0)
@@ -193,6 +202,6 @@ Phase-2 analysis caught: **`rasa.domain.code` is missing `CLAUDE.md` at root** (
 
 ## License
 
-Apache 2.0 (planned — to be added before first external fork. Matches
-the convention used by `domain-code` and `domain-legal` historical
-forks from the claude-kit lineage).
+Apache 2.0 — see `LICENSE` (shipped since v1.0.0, Phase-2 decision #7).
+Matches the convention used by `domain-code` and `domain-legal` from
+the claude-kit lineage.

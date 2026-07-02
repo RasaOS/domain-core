@@ -181,7 +181,7 @@ defer the rest", or "docs are in good shape". Be direct.>
 - **No "you might want to consider".** Propose the edit concretely, or
   say you're not proposing one.
 
-## What you must NOT do
+## What NOT to do
 
 - **Don't apply edits in the report pass.** Report first; edit on
   approval.
@@ -201,7 +201,7 @@ defer the rest", or "docs are in good shape". Be direct.>
 - **Capturing a rule that emerged mid-session** → use `codify`.
 - **Pulling upstream Element changes** → use `sync`.
 
-## What "done" looks like
+## Done when
 
 The user leaves with one or more of:
 - A clear report of what's drifted, ready to triage.

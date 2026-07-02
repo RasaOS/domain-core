@@ -15,33 +15,24 @@ skills/
 
 ## `SKILL.md` shape
 
-Every `SKILL.md` opens with YAML frontmatter, then a body:
+**The canonical skeleton lives at `content/templates/SKILL.md.template`
+— copy it; don't freehand.** `bin/check-shape` enforces the shape:
+frontmatter `name` (== the folder) + a substantive `description`, and
+the required sections `## Behavior contract`, `## Process`,
+`## What NOT to do`, `## Done when`. Extra sections (`Output shape`,
+`When NOT to use`, …) are welcome — the required set is a floor. The
+full lifecycle (template → fill → validate → register → record) is in
+`../rules/authoring-rules.md`.
 
-```markdown
----
-name: <kebab-case, single word preferred>
-description: <what it does, when it triggers, and 3–5 concrete
-  trigger phrases the user might say — the router reads this to
-  decide when to invoke the skill>
----
+What each required section is *for*:
 
-# /<name> — <one-line title>
-
-<One paragraph: what this skill produces and the judgment it applies.>
-
-## Behavior contract
-- <Hard rules: what it always/never does. Consent model. What it
-  refuses. Whether it writes files, edits code, or only reports.>
-
-## Process
-1. <Numbered steps.>
-
-## What NOT to do
-- <Common wrong turns.>
-
-## Done when
-- <The observable definition of finished.>
-```
+- **description (frontmatter)** — the trigger surface; the router
+  matches on it.
+- **Behavior contract** — the hard rules: what it always/never does,
+  and its consent model (report-only / writes files / edits source).
+- **Process** — the numbered steps, in reading order.
+- **What NOT to do** — the concrete wrong turns it must refuse.
+- **Done when** — the observable definition of finished.
 
 ## Authoring principles
 

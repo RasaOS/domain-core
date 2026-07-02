@@ -21,18 +21,13 @@ populate it.
 
 ## `<name>.md` shape
 
-```markdown
----
-name: <kebab-case>
-description: When to dispatch this agent — the conditions that should
-  route a sub-task to it, in concrete terms.
-tools: [Read, Grep, Glob, Bash]   # least-privilege: only what it needs
----
-
-<The agent's system prompt: its role, what it returns, its altitude,
-and what it must never do. The final message it produces IS its
-return value — tell it to return raw findings, not chat prose.>
-```
+**The canonical skeleton lives at `content/templates/agent.md.template`
+— copy it; don't freehand.** `bin/check-shape` enforces the shape:
+frontmatter `name` (== the filename stem), `description` (the dispatch
+conditions), and `tools` (least-privilege). The body is the agent's
+system prompt: its role, what it returns (its final message IS the
+return value — raw findings, not chat prose), and what it must never
+do.
 
 ## Authoring principles
 

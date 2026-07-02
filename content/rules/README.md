@@ -7,10 +7,15 @@ session *consults*; skills are capabilities the session *runs*.
 
 ```
 rules/
-├── contract-rules.md   ← Element ↔ consumer discipline
-├── output-rules.md     ← house communication style
-└── <topic>-rules.md    ← one file per coherent topic
+├── contract-rules.md    ← Element ↔ consumer discipline
+├── output-rules.md      ← house communication style
+├── authoring-rules.md   ← the enforced authoring lifecycle
+└── <topic>-rules.md     ← one file per coherent topic
 ```
+
+**New rule files start from `content/templates/rule.md.template`** and
+must be named `<topic>-rules.md` — `bin/check-shape` enforces the
+naming and requires an H1 title.
 
 ## How rules load
 

@@ -46,10 +46,25 @@ content/
 ├── rules/             ← universal rule files
 │   ├── README.md      ← how rules load + are authored
 │   ├── contract-rules.md   ← Element ↔ consumer discipline (the lockfile is truth)
-│   └── output-rules.md     ← house communication style (blunt, calibrated, altitude)
+│   ├── output-rules.md     ← house communication style (blunt, calibrated, altitude)
+│   └── authoring-rules.md  ← the enforced authoring lifecycle (template → fill → validate)
+├── templates/         ← the enforced authoring skeletons (copy these; don't freehand)
+│   ├── README.md
+│   ├── SKILL.md.template
+│   ├── rule.md.template
+│   └── agent.md.template
 └── agents/            ← Claude subagent definitions
     └── README.md      ← agent-definition conventions (no starter agents shipped)
 ```
+
+**Shape is enforced, not just documented.** `bin/check-shape` validates
+the authored artifacts under `content/` — skills, rules, agents —
+against the templated shape (required sections, frontmatter, naming);
+`templates/` itself is exempt, since it holds the TODO skeletons. It is
+a release gate alongside `bin/check-manifest`'s inventory check. The lifecycle — template →
+fill → validate → register → record — is codified in
+`rules/authoring-rules.md`, so every fork inherits the discipline, not
+just the shapes.
 
 ## Adopting it in a fork
 
