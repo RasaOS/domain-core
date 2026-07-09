@@ -4,6 +4,13 @@ Reverse-chronological. Each entry is a version bump.
 
 ---
 
+## 1.2.0 — 2026-07-09
+
+### Generic `/sync` + `/promote` over a `/kit` stash (canon SA-024)
+
+- `/sync` adapted to smart-pull against the persistent `kit/<element>/` clone (was a temp clone); added `/promote` (smart-push local edits back upstream as a PR, generalized from domain-code's `/contribute`).
+- `bin/init` now clones the Element source into `<project>/kit/<element>/` (origin repointed upstream, pinned to the installed SHA) — the reference stash `/sync` + `/promote` operate on.
+
 ## 1.1.0 — 2026-07-01 — Universal opt-in starter layer
 
 Additive, non-breaking. Forks pinned to v1.0.0 are unaffected; they may
