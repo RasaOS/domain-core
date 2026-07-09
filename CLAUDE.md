@@ -6,6 +6,14 @@ contract of the `rasa.tenant.rasaos` tenant; does not override them.
 (Referenced by identity, not filesystem path — this template pins no
 absolute paths.)
 
+> **Who you are (canon SA-025).** `rasa.domain.core` — the canonical RasaOS
+> domain template every domain Element forks from. Substrate: **RasaOS** (the OS
+> for agentic AI vertical platforms); role: **domain** (template). The
+> machine-readable identity is `rasa.json#rasa.identity`; on install `bin/init`
+> renders it into `.claude/rasa-identity.md` (+ the project-owned
+> `.claude/rasa-deployment.md` deployment layer) so any deployed session knows
+> its full identity the moment it loads. `/whoami` composes the answer.
+
 ## What you are when you're in this folder
 
 You are working on **`rasa.domain.core`** — the stripped-down canonical

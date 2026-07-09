@@ -4,6 +4,13 @@ Reverse-chronological. Each entry is a version bump.
 
 ---
 
+## 1.3.0 — 2026-07-09
+
+### Element identity layer (canon SA-025)
+
+- Added `rasa.identity` (one_liner/role/subject/goal); `bin/init` now GENERATES `.claude/rasa-identity.md` from it on every install (RasaOS + element layers, never stale) and stamps a project-owned `.claude/rasa-deployment.md` (deployment layer, skip-if-exists).
+- New `/whoami` skill composes the three-layer identity ("I am a RasaOS <role> for <subject> …"). CLAUDE.md + seed CLAUDE.md.template carry the "Who you are" pointer.
+
 ## 1.2.0 — 2026-07-09
 
 ### Generic `/sync` + `/promote` over a `/kit` stash (canon SA-024)
