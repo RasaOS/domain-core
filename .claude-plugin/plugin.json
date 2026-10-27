@@ -1,0 +1,6 @@
+{
+  "name": "rasa-domain-core",
+  "version": "1.3.0",
+  "description": "RasaOS Domain · Core. The unified canonical template every domain Element follows. Locked v1.0.0 shape (Phase 2 complete) + v1.1.0 universal starter layer: canon-required files (§4) + bin/init + bin/check-manifest + Apache-2.0 LICENSE + content/SHAPE.md documenting the shape patterns (toolkit/structural/hybrid) + a domain-agnostic opt-in starter set under content/ — meta-skills (new-skill, codify, sync), capability skills (onboard, handoff, resume, update-docs), universal rules (contract-rules, output-rules, authoring-rules), authoring templates (content/templates/ — the enforced skeletons for skills/rules/agents), and README conventions. Shape is enforced, not just documented: bin/check-shape validates content/ structure (required sections, frontmatter, naming) alongside bin/check-manifest's inventory check; both are release gates. The starter set references only the Element contract (lockfile, pinned_sha, overrides, install policies) — zero subject knowledge. All opt-in: nothing installs into a consumer project until a fork flips the policy.",
+  "skills": "./content/skills/"
+}
